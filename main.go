@@ -39,11 +39,11 @@ func main() {
 	fmt.Printf("Two most distant points: %s and %s\n", p1, p2)
 }
 
-func diameter(pointSet []point.Point) (point.Point, point.Point, error) {
+func diameter(points []point.Point) (point.Point, point.Point, error) {
 	fmt.Println("Before sort:")
-	fmt.Printf("%+v\n", pointSet)
-	hull := convexhull.ConvexHull(point.Points{Pts: pointSet})
+	fmt.Printf("%+v\n", points)
+	hull := convexhull.ConvexHull(points)
 	fmt.Println("After sort:")
-	fmt.Printf("%+v\n", hull.Pts)
+	fmt.Printf("%+v\n", hull)
 	return point.Point{}, point.Point{}, nil
 }

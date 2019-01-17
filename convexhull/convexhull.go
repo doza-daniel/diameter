@@ -5,24 +5,22 @@ import (
 )
 
 // ConvexHull ...
-func ConvexHull(pts point.Points) point.Points {
-	if pts.Len() < 3 {
-		return point.Points{}
+func ConvexHull(pts []point.Point) []point.Point {
+	if len(pts) < 3 {
+		return []point.Point{}
 	}
 
-	pts.Sort(sortByY())
+	point.Sort(pts, sortByY())
+
+	dx := point.Find(pts, diffX(pts[0].X))
+	dy := point.Find(pts, diffY(pts[0].Y))
 
 	// all points are colinear
-	if pts.Find(diffY(pts.Pts[0].Y)) == -1 ||
-		pts.Find(diffX(pts.Pts[0].X)) == -1 {
-		return point.Points{}
+	if dx == -1 || dy == -1 {
+		return []point.Point{}
 	}
 
-	angleSorted := point.Points{
-		Pts: pts.Pts[pts.Find(diffY(pts.Pts[0].Y)):],
-	}
-
-	angleSorted.Sort(sortByAngle(pts.Pts[0]))
+	point.Sort(pts[dy:], sortByAngle(pts[0]))
 	return pts
 }
 
