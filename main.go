@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,21 +12,27 @@ import (
 )
 
 func main() {
-	var pointSet []point.Point
-	pointSet = []point.Point{
-		point.Point{X: 1, Y: 1},
-		point.Point{X: 2, Y: 3},
-		point.Point{X: 2, Y: -1},
-		point.Point{X: 2, Y: 3},
-		point.Point{X: 2, Y: 3},
-		point.Point{X: 2, Y: -1},
-		point.Point{X: 1, Y: -1},
-		point.Point{X: 2, Y: 3},
+	flag.String("json", "", "JSON array of points")
+	flag.Parse()
+
+	file := flag.Arg(0)
+
+	var in *os.File
+	if file == "" || file == "-" {
+		in = os.Stdin
+	} else {
+		var err error
+		if in, err = os.Open(file); err != nil {
+			log.Fatal(err)
+		}
 	}
-	if err := json.NewEncoder(os.Stdout).Encode(pointSet); err != nil {
+	defer in.Close()
+
+	var points []point.Point
+	if err := json.NewDecoder(in).Decode(&points); err != nil {
 		log.Fatal(err)
 	}
-	p1, p2, err := diameter(pointSet)
+	p1, p2, err := diameter(points)
 	if err != nil {
 		log.Fatal(err)
 	}
