@@ -40,10 +40,6 @@ func main() {
 }
 
 func diameter(points []point.Point) (point.Point, point.Point, error) {
-	fmt.Println("Before sort:")
-	fmt.Printf("%+v\n", points)
-	hull := convexhull.ConvexHull(points)
-	fmt.Println("After sort:")
-	fmt.Printf("%+v\n", hull)
+	_ = convexhull.ConvexHull(points)
 	return point.Point{}, point.Point{}, nil
 }
