@@ -21,7 +21,18 @@ func ConvexHull(pts []point.Point) []point.Point {
 	}
 
 	point.Sort(pts[dy:], sortByAngle(pts[0]))
-	return pts
+
+	stack := point.Stack{}
+	stack.Push(pts[0])
+	stack.Push(pts[1])
+	for i := 2; i < len(pts)-1; i++ {
+		for stack.Count() >= 2 && ccw(stack.NextToTop(), stack.Top(), pts[i]) <= 0 {
+			stack.Pop()
+		}
+		stack.Push(pts[i])
+	}
+
+	return stack.Points()
 }
 
 func diffY(y float64) func(point.Point) bool {
