@@ -2,6 +2,7 @@ package point
 
 import (
 	"fmt"
+	"math"
 	"sort"
 )
 
@@ -49,6 +50,11 @@ func Count(pts []Point, f func(Point) bool) int {
 		}
 	}
 	return cnt
+}
+
+// Distance ...
+func Distance(a, b Point) float64 {
+	return math.Sqrt((a.X-b.X)*(a.X-b.X) + (a.Y-b.Y)*(a.Y-b.Y))
 }
 
 func (s sortable) Len() int {
