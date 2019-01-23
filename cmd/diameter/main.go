@@ -33,14 +33,12 @@ func main() {
 	if err := json.NewDecoder(in).Decode(&points); err != nil {
 		log.Fatal(err)
 	}
-	p1, p2, err := diameter(points)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	p1, p2 := diameter(points)
 	fmt.Printf("Two most distant points: %s and %s\n", p1, p2)
 }
 
-func diameter(points []point.Point) (point.Point, point.Point, error) {
+func diameter(points []point.Point) (point.Point, point.Point) {
 	type candidate struct {
 		a, b point.Point
 	}
@@ -67,5 +65,5 @@ func diameter(points []point.Point) (point.Point, point.Point, error) {
 			max = c
 		}
 	}
-	return max.a, max.b, nil
+	return max.a, max.b
 }
