@@ -12,11 +12,14 @@ pointgen: bin
 benchmark: smart naive pointgen
 	benchmarks.sh 10000 200
 
+pdf:
+	pdflatex docs/dijametar.tex
+
 bin:
 	mkdir -p bin
 
 .PHONY: clean
 
 clean:
-	rm -rf bin/ *.dat *.png
+	rm -rf bin/ *.dat *.png dijametar.*
 	
