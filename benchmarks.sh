@@ -2,6 +2,7 @@
 
 NAIVE="bin/naive"
 SMART="bin/smart"
+GEN="bin/pointgen"
 
 ITER="$1"
 STEP="$2"
@@ -20,10 +21,10 @@ function filename {
 [ ! "$(command -v bc)" ] && exit 1
 [ ! "$(command -v gnuplot)" ] && exit 1
 
-{ [ ! -f $NAIVE ] || [ ! -f $SMART  ]; } && exit 1
+{ [ ! -f $NAIVE ] || [ ! -f $SMART  ] || [ ! -f $GEN ]; } && exit 1
 
 for i in $(seq $STEP $STEP $ITER); do
-    /tmp/pointgen -n $i -u 1000 -l -1000 > "/tmp/test.json";
+    $GEN -n $i -u 1000 -l -1000 > "/tmp/test.json";
     naivetime=$(run "$NAIVE" "/tmp/test.json")
     smarttime=$(run "$SMART" "/tmp/test.json")
 
