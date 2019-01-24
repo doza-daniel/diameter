@@ -1,7 +1,7 @@
 all: smart naive pointgen
 
 smart: bin
-	go build -o bin/smart cmd/diameter/main.go
+	go build -o bin/smart cmd/smart/main.go
 
 naive: bin
 	go build -o bin/naive cmd/naive/main.go
