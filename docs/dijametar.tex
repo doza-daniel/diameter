@@ -1,0 +1,304 @@
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[a4paper]{article}
+
+\usepackage[utf8x,utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+
+\usepackage{booktabs}
+
+\usepackage{color}
+\usepackage{url}
+\usepackage[unicode]{hyperref}
+\hypersetup{colorlinks,citecolor=green,filecolor=green,linkcolor=blue,urlcolor=blue}
+
+\begin{document}
+
+\title{Dijametar skupa tačaka}
+
+\author{Daniel Doža}
+
+
+\maketitle
+
+
+\section{Problem koji rešavamo}
+Problem koji treba da rešimo jeste nalaženje dve najudaljenije tačke u nekom skupu
+tačaka. Neka je \(S\) skup od \(n\) tačaka u ravni, i treba odrediti dijametar \(D(S)\)
+ovog skupa. Dijametar \(D(S)\)  definišemo kao:
+\[
+    D(S) = \max\{d(p, q) \mid  p, q \in S\}
+\]
+gde je \(d(p, q)\) rastojanje između tačaka \(p \) i \(q \).
+
+
+\section{Složenost}
+Naivan način rešavanja ovog problema bio bi uporediti svake dve tačke iz skupa \(S\) i odrediti
+\(\max(p, q)\) za svako \(p\) i \(q\) iz \(S\). Pošto ovakvih parova ima \({n \choose 2}\)
+složenost ovog pristupa je \(O(n^{2})\). Algoritam koji je prikazan u kodu koristi činjenicu da
+se dve najdalje tačke skupa \(S\) nalaze na njegovom konveksnom omotaču. Prethodna činjenica
+nam omogućava da pretragom konveksnog omotača, u složenosti \(O(n)\) pronađemo dijametar skupa.
+Kreiranje konveknog omotača je složenosti \(O(n\log{n})\), pa je onda to i složenost celog
+algoritma.
+
+\section{Obrazloženje}
+Ovde ćemo pokazati zašto važe stvari koje smo naveli. Naime, zašto je dijametar skupa tačaka
+jednak dijametru njegovog konveksnog omotača i kako kada ispitujemo konveksni omotač, možemo
+u linearnoj složenosti naći dijametar.
+
+\subsection{Konveksni omotač}
+Neka je \(S^{'}\) konveksni omotač skupa \(S\). Razmotrimo onda tačke \(p\) i \(q\), takve da
+ne pripadaju obe konveksnom omotaču (\(q \notin S^{\prime}\)). Možemo da zamislimo pravu kroz \(p\)
+i \(q\) takvu da je ona horizontalna, i da se, na primer \(p\) nalazi levo od \(q\). Pošto \(q\)
+ne pripada konveksnom omotaču, znači da postoji tačka \(r\) koja pripada. Tačka \(r\) se tad
+nalazi na vertikalnoj pravoj kroz \(q\), ili desno od nje. Da je \(d(p, r) > d(p, q)\) sledi
+iz činjenice da je ugao \(\sphericalangle(p, q, r)\) tup.
+
+\subsection{Pronalaženje dijametra konveksnog omotača}
+Neka je \(e\) ivica konveksnog omotača i neka je \(l_{e}\) prava koja prolazi kroz \(e\). Neka je
+tačka \(p\) teme ivice \(e\). Definišimo onda skup \(L\):
+\[
+    L = \{ (p, q) \mid d(q, l_{e}) = \max\{d(r, l_{e}) \mid r \in S\} \}
+\]
+Pokažimo da ako važi \(d(a, b)\) gde \(a, b \in S\) i \(d(a, b) = D(S)\) onda par \((a, b) \in L\).
+Da bismo dokazali ovo tvrđenje, treba da pokažemo da par \((a, b)\) ili par \((b, a)\) pripada \(L\).
+Možemo bez narušavanja opštosti da smatramo da su \(a\) i \(b\) horizontalne. Zamislimo sad dve
+vertikalne prave kroz njih. Sve tačke iz \(S\) se nalaze između ove dve prave, inače \(d(a, b) \ne D(S)\).
+Rotirajmo sad ove prave u isto vreme, u smeru kazaljke na satu dok se jedna od njih ne poklopi sa
+ivicom \(e\) konveksnog omotača. Ukoliko je to bila prava kroz \(a\) onda zaključujemo da par
+\((a, b) \in L\). U suprotnom \((b, a) \in L\).
+
+Koliko elemenata može imati skup \(L\)? Posmatrajmo jednu ivicu \(e\) mnogougla. Ona je ograničena dvema
+tačkama. Zbog konveksnosti, znamo da najviše dve tačke mogu biti na maksimalnom rastojanju od \(l_{e}\).
+Iz ovoga zaključujemo da jedna ivica može da proizvede maksimalno četiri para tačaka, što dalje znači
+da je maksimalan broj elemenata skupa \(L\) jednak \(4n\).
+
+Kako možemo efikasno generisati skup \(L\). Neka je \(j\) indeks takav da važi da je \(p_{j}\) na najvećem
+rastojanju od \(l_{e}\). Slično, neka je indeks \(i\) takav da važi da je \(p_{i}\) na maksimalnom
+rastojanju od \(l_{e}^{\prime}\). Tada važi \(j \leq i \leq n\) ili \(i = 1\). Možemo pretpostaviti,
+bez narušavanja opštosti da je prava kroz \(p_{1}\) i \(p_{2}\) horizontalna i da je \(p_{1}\) levo od
+\(p_{2}\).  Neka je \(l_{j}\) paralelna sa pravom \(l_{e}\) (analogno važi za prave \(l_{j}^{\prime}\) i
+\(l_{e}^{\prime}\)). Ako znamo da je \(p_{j}\) na maksimalnom rastojanju od \(l_{e}\), onda znamo da su
+tačke \(p_{4}, p_{5},\ldots,p_{j-1}\) na, ili ispod prave \(l_{j}\). Zbog konveksnosti, važi da su one
+sve desno od prave \(l_{j}^{\prime}\). Iz toga sledi da \(d(p_{j}, l_{e}^{\prime}) > d(p_{k},
+l_{e}^{\prime}) \mid k = 4,\ldots,j-1\) iz čega zaključujemo da \(i \notin \{4,5,\ldots,j-1\}\). Prema
+tome, na najdalju tačku od \(e^{\prime}\) se nailazi posle tačke \(p_{j}\).
+
+Na ovaj način smo pokazali da možemo skup \(L\) generisati prolaskom maksimalno dva puta oko konveksnog
+omotača. Ovo znači da skup \(L\) generišemo u složenosti \(O(n)\). Ostalo je još samo pronaći par sa
+najvećim rastojanjem, što se takođe rešava u linearnoj složenosti.
+
+Ovim smo pokazali da se svi koraci posle generisanja konveksnog omotača izvršavaju linearno, što znači
+da je složenost kompletnog algoritma određenda složenosti koraka koji generiše konveksni omotač, što je
+\(O(n\log{n})\).
+
+\section{Primeri}
+Grafik izvršavanja naivnog rešenja, složenosti \(O(n^{2})\) i opisanog algoritma, složenosti \(O(n\log{n})\)
+
+% GNUPLOT: LaTeX picture
+\setlength{\unitlength}{0.240900pt}
+\ifx\plotpoint\undefined\newsavebox{\plotpoint}\fi
+\begin{picture}(1500,900)(0,0)
+\centering
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(171.0,131.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,131){\makebox(0,0)[r]{$0$}}
+\put(1419.0,131.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,212.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,212){\makebox(0,0)[r]{$0.05$}}
+\put(1419.0,212.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,293.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,293){\makebox(0,0)[r]{$0.1$}}
+\put(1419.0,293.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,373.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,373){\makebox(0,0)[r]{$0.15$}}
+\put(1419.0,373.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,454.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,454){\makebox(0,0)[r]{$0.2$}}
+\put(1419.0,454.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,535.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,535){\makebox(0,0)[r]{$0.25$}}
+\put(1419.0,535.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,616.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,616){\makebox(0,0)[r]{$0.3$}}
+\put(1419.0,616.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,696.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,696){\makebox(0,0)[r]{$0.35$}}
+\put(1419.0,696.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,777.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,777){\makebox(0,0)[r]{$0.4$}}
+\put(1419.0,777.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,858.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(151,858){\makebox(0,0)[r]{$0.45$}}
+\put(1419.0,858.0){\rule[-0.200pt]{4.818pt}{0.400pt}}
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(171,90){\makebox(0,0){$0$}}
+\put(171.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(298.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(298,90){\makebox(0,0){$1000$}}
+\put(298.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(425.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(425,90){\makebox(0,0){$2000$}}
+\put(425.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(551.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(551,90){\makebox(0,0){$3000$}}
+\put(551.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(678.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(678,90){\makebox(0,0){$4000$}}
+\put(678.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(805.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(805,90){\makebox(0,0){$5000$}}
+\put(805.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(932.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(932,90){\makebox(0,0){$6000$}}
+\put(932.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1059.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1059,90){\makebox(0,0){$7000$}}
+\put(1059.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1185.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1185,90){\makebox(0,0){$8000$}}
+\put(1185.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1312.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1312,90){\makebox(0,0){$9000$}}
+\put(1312.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1439.0,131.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(1439,90){\makebox(0,0){$10000$}}
+\put(1439.0,838.0){\rule[-0.200pt]{0.400pt}{4.818pt}}
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{175.134pt}}
+\put(171.0,131.0){\rule[-0.200pt]{305.461pt}{0.400pt}}
+\put(1439.0,131.0){\rule[-0.200pt]{0.400pt}{175.134pt}}
+\put(171.0,858.0){\rule[-0.200pt]{305.461pt}{0.400pt}}
+\put(30,494){\makebox(0,0){Time (seconds)}}
+\put(805,29){\makebox(0,0){Input Size}}
+\put(1279,817){\makebox(0,0)[r]{naive}}
+\put(196,136){\makebox(0,0){$\bullet$}}
+\put(222,136){\makebox(0,0){$\bullet$}}
+\put(247,137){\makebox(0,0){$\bullet$}}
+\put(272,142){\makebox(0,0){$\bullet$}}
+\put(298,147){\makebox(0,0){$\bullet$}}
+\put(323,149){\makebox(0,0){$\bullet$}}
+\put(349,154){\makebox(0,0){$\bullet$}}
+\put(374,158){\makebox(0,0){$\bullet$}}
+\put(399,160){\makebox(0,0){$\bullet$}}
+\put(425,167){\makebox(0,0){$\bullet$}}
+\put(450,171){\makebox(0,0){$\bullet$}}
+\put(475,178){\makebox(0,0){$\bullet$}}
+\put(501,186){\makebox(0,0){$\bullet$}}
+\put(526,191){\makebox(0,0){$\bullet$}}
+\put(551,202){\makebox(0,0){$\bullet$}}
+\put(577,212){\makebox(0,0){$\bullet$}}
+\put(602,218){\makebox(0,0){$\bullet$}}
+\put(627,231){\makebox(0,0){$\bullet$}}
+\put(653,239){\makebox(0,0){$\bullet$}}
+\put(678,249){\makebox(0,0){$\bullet$}}
+\put(704,260){\makebox(0,0){$\bullet$}}
+\put(729,273){\makebox(0,0){$\bullet$}}
+\put(754,283){\makebox(0,0){$\bullet$}}
+\put(780,294){\makebox(0,0){$\bullet$}}
+\put(805,310){\makebox(0,0){$\bullet$}}
+\put(830,330){\makebox(0,0){$\bullet$}}
+\put(856,360){\makebox(0,0){$\bullet$}}
+\put(881,364){\makebox(0,0){$\bullet$}}
+\put(906,370){\makebox(0,0){$\bullet$}}
+\put(932,383){\makebox(0,0){$\bullet$}}
+\put(957,399){\makebox(0,0){$\bullet$}}
+\put(983,427){\makebox(0,0){$\bullet$}}
+\put(1008,440){\makebox(0,0){$\bullet$}}
+\put(1033,454){\makebox(0,0){$\bullet$}}
+\put(1059,470){\makebox(0,0){$\bullet$}}
+\put(1084,493){\makebox(0,0){$\bullet$}}
+\put(1109,514){\makebox(0,0){$\bullet$}}
+\put(1135,543){\makebox(0,0){$\bullet$}}
+\put(1160,549){\makebox(0,0){$\bullet$}}
+\put(1185,575){\makebox(0,0){$\bullet$}}
+\put(1211,595){\makebox(0,0){$\bullet$}}
+\put(1236,612){\makebox(0,0){$\bullet$}}
+\put(1261,640){\makebox(0,0){$\bullet$}}
+\put(1287,675){\makebox(0,0){$\bullet$}}
+\put(1312,705){\makebox(0,0){$\bullet$}}
+\put(1338,708){\makebox(0,0){$\bullet$}}
+\put(1363,740){\makebox(0,0){$\bullet$}}
+\put(1388,763){\makebox(0,0){$\bullet$}}
+\put(1414,795){\makebox(0,0){$\bullet$}}
+\put(1439,818){\makebox(0,0){$\bullet$}}
+\put(1349,817){\makebox(0,0){$\bullet$}}
+\put(1279,776){\makebox(0,0)[r]{smart}}
+\put(196,139){\makebox(0,0){$\bullet$}}
+\put(222,136){\makebox(0,0){$\bullet$}}
+\put(247,139){\makebox(0,0){$\bullet$}}
+\put(272,137){\makebox(0,0){$\bullet$}}
+\put(298,139){\makebox(0,0){$\bullet$}}
+\put(323,141){\makebox(0,0){$\bullet$}}
+\put(349,141){\makebox(0,0){$\bullet$}}
+\put(374,141){\makebox(0,0){$\bullet$}}
+\put(399,141){\makebox(0,0){$\bullet$}}
+\put(425,142){\makebox(0,0){$\bullet$}}
+\put(450,142){\makebox(0,0){$\bullet$}}
+\put(475,141){\makebox(0,0){$\bullet$}}
+\put(501,142){\makebox(0,0){$\bullet$}}
+\put(526,142){\makebox(0,0){$\bullet$}}
+\put(551,146){\makebox(0,0){$\bullet$}}
+\put(577,144){\makebox(0,0){$\bullet$}}
+\put(602,146){\makebox(0,0){$\bullet$}}
+\put(627,147){\makebox(0,0){$\bullet$}}
+\put(653,146){\makebox(0,0){$\bullet$}}
+\put(678,147){\makebox(0,0){$\bullet$}}
+\put(704,147){\makebox(0,0){$\bullet$}}
+\put(729,147){\makebox(0,0){$\bullet$}}
+\put(754,147){\makebox(0,0){$\bullet$}}
+\put(780,147){\makebox(0,0){$\bullet$}}
+\put(805,150){\makebox(0,0){$\bullet$}}
+\put(830,158){\makebox(0,0){$\bullet$}}
+\put(856,152){\makebox(0,0){$\bullet$}}
+\put(881,149){\makebox(0,0){$\bullet$}}
+\put(906,150){\makebox(0,0){$\bullet$}}
+\put(932,150){\makebox(0,0){$\bullet$}}
+\put(957,150){\makebox(0,0){$\bullet$}}
+\put(983,154){\makebox(0,0){$\bullet$}}
+\put(1008,152){\makebox(0,0){$\bullet$}}
+\put(1033,152){\makebox(0,0){$\bullet$}}
+\put(1059,154){\makebox(0,0){$\bullet$}}
+\put(1084,154){\makebox(0,0){$\bullet$}}
+\put(1109,154){\makebox(0,0){$\bullet$}}
+\put(1135,157){\makebox(0,0){$\bullet$}}
+\put(1160,155){\makebox(0,0){$\bullet$}}
+\put(1185,155){\makebox(0,0){$\bullet$}}
+\put(1211,157){\makebox(0,0){$\bullet$}}
+\put(1236,158){\makebox(0,0){$\bullet$}}
+\put(1261,157){\makebox(0,0){$\bullet$}}
+\put(1287,163){\makebox(0,0){$\bullet$}}
+\put(1312,158){\makebox(0,0){$\bullet$}}
+\put(1338,160){\makebox(0,0){$\bullet$}}
+\put(1363,160){\makebox(0,0){$\bullet$}}
+\put(1388,160){\makebox(0,0){$\bullet$}}
+\put(1414,162){\makebox(0,0){$\bullet$}}
+\put(1439,160){\makebox(0,0){$\bullet$}}
+\put(1349,776){\makebox(0,0){$\bullet$}}
+\sbox{\plotpoint}{\rule[-0.400pt]{0.800pt}{0.800pt}}%
+\sbox{\plotpoint}{\rule[-0.200pt]{0.400pt}{0.400pt}}%
+\put(171.0,131.0){\rule[-0.200pt]{0.400pt}{175.134pt}}
+\put(171.0,131.0){\rule[-0.200pt]{305.461pt}{0.400pt}}
+\put(1439.0,131.0){\rule[-0.200pt]{0.400pt}{175.134pt}}
+\put(171.0,858.0){\rule[-0.200pt]{305.461pt}{0.400pt}}
+\end{picture}
+
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{c c c}
+        Broj tačaka & Vreme naivni (s) & Vreme pametni (s) \\ \toprule
+        1000 & 0.007000 & 0.004000 \\ \midrule
+        2000 & 0.024000 & 0.007000 \\ \midrule
+        3000 & 0.043000 & 0.008000 \\ \midrule
+        4000 & 0.073000 & 0.009000 \\ \midrule
+        5000 & 0.108000 & 0.010000 \\ \midrule
+        6000 & 0.162000 & 0.013000 \\ \midrule
+        7000 & 0.213000 & 0.014000 \\ \midrule
+        8000 & 0.271000 & 0.014000 \\ \midrule
+        9000 & 0.341000 & 0.016000 \\ \midrule
+        10000 & 0.455000 & 0.017000 \\ \bottomrule
+    \end{tabular}
+    \caption{Tabela sa vremenima izvršavanja za različite veličine ulaza.}
+\end{table}
+\end{document}
