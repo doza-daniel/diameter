@@ -7,7 +7,8 @@ ITER="$1"
 STEP="$2"
 
 function run {
-    { time $1 "$2" > /dev/null; } |& grep real | awk '{print $2}' | sed 's/0m//; s/s//'
+    { time $1 "$2" > /dev/null; } |& grep real | sed -E 's/real\s*/scale=4\n/; s/m/*60+/; s/s$//' \
+        | bc | sed 's/^\./0./'
 }
 
 function filename {
@@ -15,6 +16,11 @@ function filename {
 }
 
 [ $# -ne 2 ] && exit 1
+
+[ ! "$(command -v bc)" ] && exit 1
+[ ! "$(command -v gnuplot)" ] && exit 1
+
+{ [ ! -f $NAIVE ] || [ ! -f $SMART  ]; } && exit 1
 
 for i in $(seq $STEP $STEP $ITER); do
     /tmp/pointgen -n $i -u 1000 -l -1000 > "/tmp/test.json";
