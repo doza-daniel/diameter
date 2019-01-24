@@ -1,7 +1,7 @@
 #!/bin/bash
 
-NAIVE="/tmp/naive"
-SMART="/tmp/smart"
+NAIVE="bin/naive"
+SMART="bin/smart"
 
 ITER="$1"
 STEP="$2"
