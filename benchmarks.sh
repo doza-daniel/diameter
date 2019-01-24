@@ -30,4 +30,4 @@ for i in $(seq $STEP $STEP $ITER); do
     printf "%d %f %f\n" $i $naivetime $smarttime
 done > $(filename).dat
 
-gnuplot -e "filename='$(filename).dat'" plot.plg > "$(filename).png"
+gnuplot -e "filename='$(filename).dat'" plot.gp > "$(filename).png"
