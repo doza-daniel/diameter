@@ -2,7 +2,7 @@
 Implementation of an algorithm that given a set of points, finds two most distant ones
 
 ## Running
-Make sure you have `go` installed.
+Make sure you have `go` (version >= 1.11) installed.
 ```
 $ git clone https://github.com/doza-daniel/diameter.git
 $ cd diameter
