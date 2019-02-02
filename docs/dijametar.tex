@@ -50,10 +50,11 @@ u linearnoj složenosti naći dijametar.
 \subsection{Konveksni omotač}
 Neka je \(S^{'}\) konveksni omotač skupa \(S\). Razmotrimo onda tačke \(p\) i \(q\), takve da
 ne pripadaju obe konveksnom omotaču (\(q \notin S^{\prime}\)). Možemo da zamislimo pravu kroz \(p\)
-i \(q\) takvu da je ona horizontalna, i da se, na primer \(p\) nalazi levo od \(q\). Pošto \(q\)
-ne pripada konveksnom omotaču, znači da postoji tačka \(r\) koja pripada. Tačka \(r\) se tad
-nalazi na vertikalnoj pravoj kroz \(q\), ili desno od nje. Da je \(d(p, r) > d(p, q)\) sledi
-iz činjenice da je ugao \(\sphericalangle(p, q, r)\) tup.
+i \(q\) takvu da je ona horizontalna, i da se, na primer \(p\) nalazi levo od \(q\). Postoji tačka
+\(r\) koja pripada konveksnom omotaču. Pošto \(q\) ne pripada konveksnom omotaču, za tačku \(r\)
+važi da se nalazi na vertikalnoj pravoj kroz \(q\), ili desno od nje. Da je \(d(p, r) > d(p, q)\)
+sledi iz činjenice da je ugao \(\sphericalangle(p, q, r)\) tup. Iz ovoga zaključujemo da se tačke
+koje određuju dijametar uvek nalaze na konveksnom omotaču.
 
 \subsection{Pronalaženje dijametra konveksnog omotača}
 Neka je \(e\) ivica konveksnog omotača i neka je \(l_{e}\) prava koja prolazi kroz \(e\). Neka je
@@ -61,13 +62,13 @@ tačka \(p\) teme ivice \(e\). Definišimo onda skup \(L\):
 \[
     L = \{ (p, q) \mid d(q, l_{e}) = \max\{d(r, l_{e}) \mid r \in S\} \}
 \]
-Pokažimo da ako važi \(d(a, b)\) gde \(a, b \in S\) i \(d(a, b) = D(S)\) onda par \((a, b) \in L\).
+Pokažimo da ako važi \(d(a, b) = D(S)\) gde \(a, b \in S\), onda par \((a, b) \in L\).
 Da bismo dokazali ovo tvrđenje, treba da pokažemo da par \((a, b)\) ili par \((b, a)\) pripada \(L\).
-Možemo bez narušavanja opštosti da smatramo da su \(a\) i \(b\) horizontalne. Zamislimo sad dve
-vertikalne prave kroz njih. Sve tačke iz \(S\) se nalaze između ove dve prave, inače \(d(a, b) \ne D(S)\).
-Rotirajmo sad ove prave u isto vreme, u smeru kazaljke na satu dok se jedna od njih ne poklopi sa
-ivicom \(e\) konveksnog omotača. Ukoliko je to bila prava kroz \(a\) onda zaključujemo da par
-\((a, b) \in L\). U suprotnom \((b, a) \in L\).
+Možemo bez narušavanja opštosti da smatramo da je prava kroz \(a\) i \(b\) horizontalna. Zamislimo
+sad dve vertikalne prave kroz njih. Sve tačke iz \(S\) se nalaze između ove dve prave, inače 
+\(d(a, b) \ne D(S)\).  Rotirajmo sad ove prave u isto vreme, u smeru kazaljke na satu dok se jedna
+od njih ne poklopi sa ivicom \(e\) konveksnog omotača. Ukoliko je to bila prava kroz \(a\) onda
+zaključujemo da par \((a, b) \in L\). U suprotnom \((b, a) \in L\).
 
 Koliko elemenata može imati skup \(L\)? Posmatrajmo jednu ivicu \(e\) mnogougla. Ona je ograničena dvema
 tačkama. Zbog konveksnosti, znamo da najviše dve tačke mogu biti na maksimalnom rastojanju od \(l_{e}\).
@@ -90,8 +91,9 @@ omotača. Ovo znači da skup \(L\) generišemo u složenosti \(O(n)\). Ostalo je
 najvećim rastojanjem, što se takođe rešava u linearnoj složenosti.
 
 Ovim smo pokazali da se svi koraci posle generisanja konveksnog omotača izvršavaju linearno, što znači
-da je složenost kompletnog algoritma određenda složenosti koraka koji generiše konveksni omotač, što je
+da je složenost kompletnog algoritma određena složenošću koraka koji generiše konveksni omotač, što je
 \(O(n\log{n})\).
+
 
 \section{Primeri}
 Grafik izvršavanja naivnog rešenja, složenosti \(O(n^{2})\) i opisanog algoritma, složenosti \(O(n\log{n})\)
